@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "335415046540",
+    "firebase_url": "https://gdg-session3.firebaseio.com",
+    "project_id": "gdg-session3",
+    "storage_bucket": "gdg-session3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335415046540:android:85a022ca4d0a95d0faa6a9",
+        "android_client_info": {
+          "package_name": "com.antonx.base_flutter_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335415046540-8b8h3ioj6agupgtdd6nkpuels2bhj5mk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6JH3BqzYkXckqZkeT8KK1omFxBv6NLXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335415046540-8b8h3ioj6agupgtdd6nkpuels2bhj5mk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335415046540:android:eecf46e4b0ad114afaa6a9",
+        "android_client_info": {
+          "package_name": "com.qamipason.museumapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335415046540-8b8h3ioj6agupgtdd6nkpuels2bhj5mk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6JH3BqzYkXckqZkeT8KK1omFxBv6NLXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335415046540-8b8h3ioj6agupgtdd6nkpuels2bhj5mk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
