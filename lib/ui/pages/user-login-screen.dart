@@ -1,6 +1,10 @@
+import 'package:base_flutter_project/enums/auth-result-status.dart';
+import 'package:base_flutter_project/services/auth-exception-handler.dart';
+import 'package:base_flutter_project/services/firebase-auth-helper.dart';
 import 'package:base_flutter_project/ui/custom-widgets/custom-blue-outlined-button.dart';
 import 'package:base_flutter_project/ui/custom-widgets/custom-blue-rounded-button.dart';
 import 'package:base_flutter_project/ui/custom-widgets/custom-rounded-textfield.dart';
+import 'package:base_flutter_project/ui/pages/user-signup-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../constants/colors.dart';
@@ -90,40 +94,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
               'LOG IN',
               style: roundedBlueBtnTS,
             ),
-            onPressed: () async {
-//              setState(() {
-//                isInProgress = true;
-//              });
-//              await authProvider.login(email: email, pass: password);
-//              setState(() {
-//                isInProgress = false;
-//              });
-//              if (authProvider.status == AuthResultStatus.successful) {
-//                if (widget.needPop) {
-//                  Navigator.pop(context);
-//                  Navigator.pop(context);
-//                } else {
-//                  Navigator.pushAndRemoveUntil(
-//                      context,
-//                      MaterialPageRoute(builder: (context) => LocationAccess()),
-//                      (r) => false);
-//                }
-//              } else {
-//                final errorMsg = AuthExceptionHandler.generateExceptionMessage(
-//                    authProvider.status);
-//                showDialog(
-//                    context: context,
-//                    builder: (context) {
-//                      return AlertDialog(
-//                        title: Text(
-//                          'Login Failed',
-//                          style: TextStyle(color: Colors.black),
-//                        ),
-//                        content: Text(errorMsg),
-//                      );
-//                    });
-//              }
-            },
+            onPressed: _login,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 14, bottom: 12),
@@ -144,16 +115,54 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
               style: TextStyle(color: mainThemeColor),
             ),
             onPressed: () {
-//              Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                  builder: (context) => UserSignUpScreen(),
-//                ),
-//              );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UserSignUpScreen(),
+                ),
+              );
             },
           ),
         ],
       ),
     );
+  }
+
+  _login() async {
+    {
+      setState(() {
+        isInProgress = true;
+      });
+      final status =
+          await FirebaseAuthHelper().login(email: email, pass: password);
+      setState(() {
+        isInProgress = false;
+      });
+      if (status == AuthResultStatus.successful) {
+        // Navigate to success screen
+
+//        Navigator.pushAndRemoveUntil(
+//            context,
+//            MaterialPageRoute(builder: (context) => SuccessScreen()),
+//            (r) => false);
+      } else {
+        final errorMsg = AuthExceptionHandler.generateExceptionMessage(status);
+        _showAlertDialog(errorMsg);
+      }
+    }
+  }
+
+  _showAlertDialog(errorMsg) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'Login Failed',
+              style: TextStyle(color: Colors.black),
+            ),
+            content: Text(errorMsg),
+          );
+        });
   }
 }

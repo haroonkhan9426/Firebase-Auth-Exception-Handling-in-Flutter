@@ -1,3 +1,6 @@
+import 'package:base_flutter_project/enums/auth-result-status.dart';
+import 'package:base_flutter_project/services/auth-exception-handler.dart';
+import 'package:base_flutter_project/services/firebase-auth-helper.dart';
 import 'package:base_flutter_project/ui/custom-widgets/custom-blue-rounded-button.dart';
 import 'package:base_flutter_project/ui/custom-widgets/custom-rounded-textfield.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +18,8 @@ class UserSignUpScreen extends StatefulWidget {
 
 class _UserSignUpScreenState extends State<UserSignUpScreen> {
   bool isInProgress = false;
+  String email;
+  String password;
 
   @override
   Widget build(BuildContext context) {
@@ -59,21 +64,25 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          CustomRoundedTextField(
-            hint: 'FirstName LastName',
-            label: 'User Name',
-            onChange: (val) {},
-          ),
+//          CustomRoundedTextField(
+//            hint: 'FirstName LastName',
+//            label: 'User Name',
+//            onChange: (val) {},
+//          ),
           CustomRoundedTextField(
             hint: 'userName@email.com',
             label: 'Email',
-            onChange: (val) {},
+            onChange: (val) {
+              email = val;
+            },
           ),
           CustomRoundedTextField(
             hint: '*********',
             label: 'Password',
             isPassword: true,
-            onChange: (val) {},
+            onChange: (val) {
+              password = val;
+            },
           ),
 //          CustomRoundedTextField(
 //            hint: '*********',
@@ -83,49 +92,39 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
 //          ),
           SizedBox(height: 40),
           CustomBlueRoundedButton(
-              child: Text(
-                'SIGN UP',
-                style: roundedBlueBtnTS,
-              ),
-              onPressed: () async {
-//                setState(() {
-//                  isInProgress = true;
-//                });
-////                await authProvider.createAccount(user: user);
-//                setState(() {
-//                  isInProgress = false;
-//                });
-//                if (authProvider.status == AuthResultStatus.successful) {
-//                  if (widget.needPop) {
-//                    Navigator.pop(context);
-//                    Navigator.pop(context);
-//                  } else {
-//                    Navigator.pushAndRemoveUntil(
-//                        context,
-//                        MaterialPageRoute(
-//                            builder: (context) => LocationAccess()),
-//                        (r) => false);
-//                  }
-//                } else {
-//                  final errorMsg =
-//                      AuthExceptionHandler.generateExceptionMessage(
-//                          authProvider.status);
-//                  showDialog(
-//                    context: context,
-//                    builder: (context) {
-//                      return AlertDialog(
-//                        title: Text(
-//                          'Login Failed',
-//                          style: TextStyle(color: Colors.black),
-//                        ),
-//                        content: Text(errorMsg),
-//                      );
-//                    },
-//                  );
-//                }
-              })
+            child: Text(
+              'SIGN UP',
+              style: roundedBlueBtnTS,
+            ),
+            onPressed: _createAccount,
+          )
         ],
       ),
     );
+  }
+
+  _createAccount() async {
+    final status =
+        await FirebaseAuthHelper().createAccount(email: email, pass: password);
+    if (status == AuthResultStatus.successful) {
+      // Navigate to success page
+    } else {
+      final errorMsg = AuthExceptionHandler.generateExceptionMessage(status);
+      _showAlertDialog(errorMsg);
+    }
+  }
+
+  _showAlertDialog(errorMsg) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'Login Failed',
+              style: TextStyle(color: Colors.black),
+            ),
+            content: Text(errorMsg),
+          );
+        });
   }
 }

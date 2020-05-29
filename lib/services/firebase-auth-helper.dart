@@ -10,10 +10,10 @@ class FirebaseAuthHelper {
   /// Helper Functions
   ///
 
-  Future<void> createAccount({user, isImam = false}) async {
+  Future<AuthResultStatus> createAccount({email, pass}) async {
     try {
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(
-          email: user.email, password: user.password);
+          email: email, password: pass);
       if (authResult.user != null) {
         _status = AuthResultStatus.successful;
       } else {
@@ -26,7 +26,7 @@ class FirebaseAuthHelper {
     return _status;
   }
 
-  Future<void> login({email, pass, isImam = false}) async {
+  Future<AuthResultStatus> login({email, pass}) async {
     try {
       final authResult =
           await _auth.signInWithEmailAndPassword(email: email, password: pass);
@@ -40,6 +40,7 @@ class FirebaseAuthHelper {
       print('Exception @createAccount: $e');
       _status = AuthExceptionHandler.handleException(e);
     }
+    return _status;
   }
 
   logout() {
